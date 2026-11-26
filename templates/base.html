@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}GrowBiz AI{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-brand">Grow<span>Biz</span> AI</div>
+      <div class="sidebar-business">{{ session.get('user_name', '') }}</div>
+
+      <a href="{{ url_for('dashboard') }}" class="nav-link {% if active_page == 'dashboard' %}active{% endif %}">
+        <span class="nav-icon">📊</span><span class="nav-label">Dashboard</span>
+      </a>
+      <a href="{{ url_for('content_generator') }}" class="nav-link {% if active_page == 'content' %}active{% endif %}">
+        <span class="nav-icon">✨</span><span class="nav-label">Content Generator</span>
+      </a>
+      <a href="{{ url_for('chatbot') }}" class="nav-link {% if active_page == 'chatbot' %}active{% endif %}">
+        <span class="nav-icon">💬</span><span class="nav-label">AI Chatbot</span>
+      </a>
+      <a href="{{ url_for('customers') }}" class="nav-link {% if active_page == 'customers' %}active{% endif %}">
+        <span class="nav-icon">👥</span><span class="nav-label">Customers</span>
+      </a>
+      <a href="{{ url_for('products') }}" class="nav-link {% if active_page == 'products' %}active{% endif %}">
+        <span class="nav-icon">🏷️</span><span class="nav-label">Products</span>
+      </a>
+      <a href="{{ url_for('business_profile') }}" class="nav-link {% if active_page == 'profile' %}active{% endif %}">
+        <span class="nav-icon">🏪</span><span class="nav-label">Business Profile</span>
+      </a>
+
+      <div class="sidebar-footer">
+        <a href="{{ url_for('logout') }}" class="nav-link">
+          <span class="nav-icon">↪</span><span class="nav-label">Log out</span>
+        </a>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>
