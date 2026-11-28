@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% set active_page = 'profile' %}
+{% block title %}Business Profile — GrowBiz AI{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <div class="eyebrow">Setup</div>
+    <h1>Business Profile</h1>
+    <div class="page-subtitle">This context feeds your AI content generator and chatbot — the more detail, the better the results.</div>
+  </div>
+</div>
+
+<div class="card" style="max-width: 640px;">
+  <form method="POST" action="{{ url_for('business_profile') }}">
+    <div class="form-group">
+      <label class="form-label">Business name</label>
+      <input type="text" name="business_name" class="form-control" required
+             value="{{ profile.business_name if profile else '' }}" placeholder="e.g. Sunrise Bakery">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Business type</label>
+        <select name="business_type" class="form-control">
+          {% set current_type = profile.business_type if profile else '' %}
+          {% for t in ['Café / Bakery', 'Restaurant', 'Salon / Spa', 'Tuition / Coaching Classes', 'Retail Shop', 'Freelancer / Services', 'Other'] %}
+            <option value="{{ t }}" {% if current_type == t %}selected{% endif %}>{{ t }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Location</label>
+        <input type="text" name="location" class="form-control"
+               value="{{ profile.location if profile else '' }}" placeholder="e.g. Rajkot, Gujarat">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Opening timings</label>
+        <input type="text" name="timings" class="form-control"
+               value="{{ profile.timings if profile else '' }}" placeholder="e.g. 9 AM – 9 PM, all days">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Price range</label>
+        <input type="text" name="price_range" class="form-control"
+               value="{{ profile.price_range if profile else '' }}" placeholder="e.g. ₹100 – ₹500">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Short description (helps the AI write better content)</label>
+      <textarea name="description" class="form-control" placeholder="e.g. Family-run bakery known for fresh sourdough and birthday cakes, popular with students nearby.">{{ profile.description if profile else '' }}</textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save profile</button>
+  </form>
+</div>
+{% endblock %}
